@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-p)c1+uuim8rj#tgxru+4l(csv!c1)*b&6&6v@7^t#8^*isouh#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://flugelchallenge.herokuapp.com/','ogcicero.pythonanywhere.com/']
 
 
 # Application definition
