@@ -10,6 +10,7 @@ from ship import services as ss
 crew_members = get_queryset()
 @api_view(["GET", "POST"])
 def list_crew(request):
+    print(request.data)
     if request.method == "GET":
         if crew_members:
             serialized_crew = CrewSerializer(crew_members, many=True)
