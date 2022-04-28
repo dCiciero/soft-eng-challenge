@@ -9,7 +9,7 @@ from crew.models import Crew
 import uuid
 
 
-ship_capacity = services.check_capacity()
+ship_capacity = int(services.check_capacity())
 ships = services.get_queryset()
 @api_view(["GET", "POST"])
 def list_ship(request):
