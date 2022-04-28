@@ -2,6 +2,9 @@
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -11,9 +14,9 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['localhost','127.0.0.1','flugelchallenge.herokuapp.com/','ogcicero.pythonanywhere.com/']
 
-MOTHERSHIP_LIMIT = 9 # os.getenv('MOTHERSHIP_LIMIT')
-SHIP_LIMIT = 5 # os.getenv('SHIP_LIMIT')
-SHIP_CREW = 3 # os.getenv('SHIP_CREW')
+MOTHERSHIP_LIMIT = os.getenv('MOTHERSHIP_LIMIT')
+SHIP_LIMIT =  os.getenv('SHIP_LIMIT')
+SHIP_CREW = os.getenv('SHIP_CREW')
 
 
 INSTALLED_APPS = [
