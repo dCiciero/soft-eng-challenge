@@ -8,7 +8,7 @@ class Ship(models.Model):
 
 
     class Meta:
-        db_table='ship_ship'
+        db_table='ship'
         
         
     def __str__(self) -> str:
