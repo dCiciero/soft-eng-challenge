@@ -15,7 +15,7 @@ mothership_capacity = services.check_capacity()
 def mothership(request):
     if request.method == "GET":
         mship_serializer = MothershipSerializer(mships, many=True)
-        if mship_serializer:
+        if mship_serializer.data:
             return Response(mship_serializer.data)
         return Response({"Info":"No mothership has been deployed to battle"}, status=status.HTTP_200_OK)
     
