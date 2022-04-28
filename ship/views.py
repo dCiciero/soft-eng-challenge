@@ -4,14 +4,14 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Ship
 from ship.serializers import ShipSerializer
-from . import services
+from .services import check_capacity, get_queryset
 from crew.models import Crew
 import uuid
 from django.conf import settings
 
 
-ship_capacity = int(settings.SHIP_LIMIT)
-ships = services.get_queryset()
+ship_capacity = check_capacity()
+ships = get_queryset()
 @api_view(["GET", "POST"])
 def list_ship(request):
     if request.method == "GET":
@@ -30,7 +30,7 @@ def list_ship(request):
  
 @api_view(["GET", "PUT", "DELETE"])
 def ship_details(request, id, *args, **kwargs):
-    ship = services.get_queryset(id)
+    ship = get_queryset(id)
     if request.method == "GET":
         if ship:
             if isinstance(ship, Ship):
