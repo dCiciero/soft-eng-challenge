@@ -30,6 +30,9 @@ def mothership(request):
 @api_view(["GET", "PUT", "DELETE"])
 def mothership_details(request, id):
     mship = get_queryset(id)
+    print(mship)
+    if not isinstance(mship, Mothership):
+        return Response({"Error":f"No deployed mothership with Id: {id}."}, status=status.HTTP_404_NOT_FOUND)
     if request.method == "GET":
         if isinstance(mship, Mothership):
             mship_serializer = MothershipSerializer(mship, many=False)
@@ -52,5 +55,5 @@ def mothership_details(request, id):
         return Response({"Error":"Bad request"}, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == "DELETE":
-        mship.delete()
-        return Response({"Info":f"Mothership {mship} with all its associated ships have been deleted"}, status=status.HTTP_204_NO_CONTENT)
+            mship.delete()
+            return Response({"Info":f"Mothership {mship} with all its associated ships have been deleted"}, status=status.HTTP_204_NO_CONTENT)

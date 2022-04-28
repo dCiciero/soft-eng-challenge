@@ -12,31 +12,33 @@ from django.conf import settings
 
 ship_capacity = check_capacity()
 ships = get_queryset()
+
 @api_view(["GET", "POST"])
 def list_ship(request):
     if request.method == "GET":
         if ships:
             serialized_crew = ShipSerializer(ships, many=True)
             return Response(serialized_crew.data)
-        return Response({"Errror":"There are no ships to display."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"Error":"There are no ships to deploy."}, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == "POST":
-        print(request.data)
         serialized_record = ShipSerializer(data=request.data)
-        if serialized_record.is_valid():
+        if serialized_record.is_valid(raise_exception=True):
             serialized_record.save()
             return Response(serialized_record.data, status=status.HTTP_201_CREATED)
         return Response(serialized_record.errors, status=status.HTTP_400_BAD_REQUEST)
  
 @api_view(["GET", "PUT", "DELETE"])
-def ship_details(request, id, *args, **kwargs):
+def ship_details(request, id):
     ship = get_queryset(id)
+    if not isinstance(ship, Ship):
+        return Response({"Error":f"No ship with Id: {id}"}, status=status.HTTP_400_BAD_REQUEST)
     if request.method == "GET":
         if ship:
             if isinstance(ship, Ship):
                 mship_serializer = ShipSerializer(ship, many=False)
                 return Response(mship_serializer.data)
-        return Response({"Error":f"No ship with Id={id}"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"Error":f"No ship with Id: {id}"}, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == "PUT":
         current_crew_load = ship.crew_member.count()
