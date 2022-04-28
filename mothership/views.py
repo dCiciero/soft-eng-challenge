@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404
 import uuid
 
 mships = services.get_queryset()
-mothership_capacity = services.check_capacity()
+mothership_capacity = int(services.check_capacity())
 
 @api_view(["GET", "POST"])
 def mothership(request):

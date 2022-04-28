@@ -13,5 +13,5 @@ def create_crew_on_ship_creation(sender, instance, created, **kwargs):
     max_crew = os.getenv('SHIP_CREW') # get_queryset()
     # max_crew = max_crew[0].crew_to_add
     if created:
-        for i in max_crew:
+        for i in range(int(max_crew)):
             Crew.objects.create(name=f'Crew-{str(uuid.uuid4())[:8]}', ship_assigned=instance)

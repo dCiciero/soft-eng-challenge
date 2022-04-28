@@ -16,7 +16,7 @@ def get_queryset(id=None):
 def check_capacity():
     capacity = os.getenv('MOTHERSHIP_LIMIT') # SystemControl.objects.values('ship_max').first()
     if capacity:
-        return capacity
+        return int(capacity)
     return Response({"Error":"No record found"}, status=status.HTTP_404_NOT_FOUND)
     
     
