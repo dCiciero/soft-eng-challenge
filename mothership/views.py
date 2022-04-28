@@ -1,6 +1,6 @@
 from .models import Mothership
 from ship.models import Ship
-from . import services
+from .services import check_capacity, get_queryset
 from .serializers import MothershipSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -9,8 +9,8 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 import uuid
 
-mships = services.get_queryset()
-mothership_capacity = int(settings.MOTHERSHIP_LIMIT)
+mships = get_queryset()
+mothership_capacity = check_capacity()
 
 @api_view(["GET", "POST"])
 def mothership(request):
@@ -29,7 +29,7 @@ def mothership(request):
 
 @api_view(["GET", "PUT", "DELETE"])
 def mothership_details(request, id):
-    mship = services.get_queryset(id)
+    mship = get_queryset(id)
     if request.method == "GET":
         if isinstance(mship, Mothership):
             mship_serializer = MothershipSerializer(mship, many=False)
