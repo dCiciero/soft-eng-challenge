@@ -1,4 +1,4 @@
-from  .models import SystemControl, Ship
+from  .models import Ship
 from rest_framework import status
 from rest_framework.response import Response
 
