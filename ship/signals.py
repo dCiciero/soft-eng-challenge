@@ -12,8 +12,7 @@ import uuid, os
 def create_ship_on_mothership_creation(sender, created, instance,*args, **kwargs):
     
     if created:
-        max_ship_to_add = getattr(settings, 'SHIP_CREW', None) #int(settings.SHIP_CREW) # services.get_queryset()
-        max_ship_to_add = int(max_ship_to_add)
+        max_ship_to_add = int(settings.SHIP_CREW)
         try:
             for i in range(max_ship_to_add):
                 Ship.objects.create(name=f"Ship-{str(uuid.uuid4()).replace('-','')[:8]}", mship=instance)

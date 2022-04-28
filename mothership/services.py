@@ -14,7 +14,7 @@ def get_queryset(id=None):
         return Response({'error_message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 def check_capacity():
-    capacity = getattr(settings, 'MOTHERSHIP_LIMIT', None) #int(settings.MOTHERSHIP_LIMIT)
+    capacity = int(settings.MOTHERSHIP_LIMIT) # getattr(settings, 'MOTHERSHIP_LIMIT', None)#
     if capacity:
-        return int(capacity)
+        return capacity
     return Response({"Error":"No record found"}, status=status.HTTP_404_NOT_FOUND)
