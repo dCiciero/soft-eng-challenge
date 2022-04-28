@@ -5,8 +5,5 @@ class Crew(models.Model):
     name = models.CharField(max_length=120)
     ship_assigned = models.ForeignKey(Ship, on_delete=models.CASCADE, related_name='crew_member')
     
-    class Meta:
-        db_table='crew'
-    
     def __str__(self) -> str:
         return f"{self.name} of {self.ship_assigned.name}"
