@@ -10,7 +10,7 @@ import uuid
 
 mships = services.get_queryset()
 mothership_capacity = services.check_capacity()
-mothership_capacity = int(mothership_capacity)
+mothership_capacity = int(str(mothership_capacity))
 
 @api_view(["GET", "POST"])
 def mothership(request):
