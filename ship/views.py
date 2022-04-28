@@ -7,9 +7,10 @@ from ship.serializers import ShipSerializer
 from . import services
 from crew.models import Crew
 import uuid
+from django.conf import settings
 
 
-ship_capacity = int(services.check_capacity())
+ship_capacity = settings.SHIP_LIMIT
 ships = services.get_queryset()
 @api_view(["GET", "POST"])
 def list_ship(request):

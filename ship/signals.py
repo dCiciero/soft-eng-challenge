@@ -1,3 +1,4 @@
+from django.conf import settings
 from .models import Ship
 from mothership import services
 from mothership.models import Mothership
@@ -11,7 +12,7 @@ import uuid, os
 def create_ship_on_mothership_creation(sender, created, instance,*args, **kwargs):
     
     if created:
-        max_ship_to_add = os.getenv('SHIP_CREW') # services.get_queryset()
+        max_ship_to_add = settings.SHIP_CREW # services.get_queryset()
         # max_ship_to_add = max_ship_to_add[0].new_ship_to_add
         try:
             for i in range(int(max_ship_to_add)):

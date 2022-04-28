@@ -6,11 +6,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
+from django.conf import settings
 import uuid
 
 mships = services.get_queryset()
-mothership_capacity = services.check_capacity()
-mothership_capacity = int(str(mothership_capacity))
+mothership_capacity = settings.MOTHERSHIP_LIMIT
 
 @api_view(["GET", "POST"])
 def mothership(request):
