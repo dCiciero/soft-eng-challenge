@@ -6,14 +6,14 @@ from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from rest_framework.response import Response
 from rest_framework import status
-import uuid
+import uuid, os
 
 @receiver(post_save, sender=Mothership)
 def create_ship_on_mothership_creation(sender, created, instance,*args, **kwargs):
     
     if created:
-        max_ship_to_add = services.get_queryset()
-        max_ship_to_add = max_ship_to_add[0].new_ship_to_add
+        max_ship_to_add = os.getenv('SHIP_CREW') # services.get_queryset()
+        # max_ship_to_add = max_ship_to_add[0].new_ship_to_add
         try:
             for i in max_ship_to_add:
                 Ship.objects.create(name=f"Ship-{str(uuid.uuid4()).replace('-','')[:8]}", mship=instance)

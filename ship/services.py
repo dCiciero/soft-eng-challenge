@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from django.db.models import Count
+import os
 
 def get_queryset(id=None):
     if not id:
@@ -13,9 +14,9 @@ def get_queryset(id=None):
         return Response({'error_message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 def check_capacity():
-    capacity = SystemControl.objects.values('ship_max').first()
+    capacity = os.getenv('MOTHERSHIP_LIMIT') # SystemControl.objects.values('ship_max').first()
     if capacity:
-        return capacity['ship_max']
+        return capacity
     return Response({"Error":"No record found"}, status=status.HTTP_404_NOT_FOUND)
     
     

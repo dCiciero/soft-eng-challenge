@@ -2,13 +2,13 @@ from django.db import models
 from mothership.models import Mothership
 
 
-class SystemControl(models.Model):
-    name = models.CharField(max_length=100)
-    ship_max = models.PositiveSmallIntegerField()
-    crew_to_add = models.PositiveSmallIntegerField(default=3)
+# class SystemControl(models.Model):
+#     name = models.CharField(max_length=100)
+#     ship_max = models.PositiveSmallIntegerField()
+#     crew_to_add = models.PositiveSmallIntegerField(default=3)
     
-    def __str__(self) -> str:
-        return f"{self.name}"
+#     def __str__(self) -> str:
+#         return f"{self.name}"
 
 
 class Ship(models.Model):
