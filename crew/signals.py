@@ -10,8 +10,7 @@ from datetime import date
 
 @receiver(post_save, sender=Ship)
 def create_crew_on_ship_creation(sender, instance, created, **kwargs):
-    max_crew = settings.SHIP_CREW # get_queryset()
-    # max_crew = max_crew[0].crew_to_add
+    max_crew = settings.SHIP_CREW 
     if created:
         for i in range(int(max_crew)):
             Crew.objects.create(name=f'Crew-{str(uuid.uuid4())[:8]}', ship_assigned=instance)

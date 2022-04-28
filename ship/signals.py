@@ -12,10 +12,10 @@ import uuid, os
 def create_ship_on_mothership_creation(sender, created, instance,*args, **kwargs):
     
     if created:
-        max_ship_to_add = settings.SHIP_CREW # services.get_queryset()
+        max_ship_to_add = int(settings.SHIP_CREW) # services.get_queryset()
         # max_ship_to_add = max_ship_to_add[0].new_ship_to_add
         try:
-            for i in range(int(max_ship_to_add)):
+            for i in range(max_ship_to_add):
                 Ship.objects.create(name=f"Ship-{str(uuid.uuid4()).replace('-','')[:8]}", mship=instance)
         except:
             return Response({"Error" : "Cannot add ships to mothership"}, status=status.HTTP_400_BAD_REQUEST)

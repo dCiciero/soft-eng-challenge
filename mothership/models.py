@@ -5,9 +5,7 @@ class Mothership(models.Model):
     
     def __str__(self) -> str:
         return self.name
-    
-    def get_ships(self):
-        return self.objects.all()
+
     
     def save(self, *args, **kwargs):
         return super().save()

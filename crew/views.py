@@ -14,10 +14,9 @@ def list_crew(request):
         if crew_members:
             serialized_crew = CrewSerializer(crew_members, many=True)
             return Response(serialized_crew.data)
-        return Response({"Error":"No crew member to display."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"Error":"No crew member deployed at the moment."}, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == "POST":
-        print(request.data['ship_assigned'])
         ship = request.data['ship_assigned']
         ship_capacity = ss.check_capacity()
         if ss.get_queryset(ship).crew_member.count() >= ship_capacity:
@@ -31,7 +30,7 @@ def list_crew(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-def crew_details(request, id, *args, **kwargs):
+def crew_details(request, id):
     crew_member = get_queryset(id)
     if request.method == "GET":
         if crew_member:
@@ -55,7 +54,6 @@ def crew_details(request, id, *args, **kwargs):
         data = {"name":crew_member.name, "ship_assigned": to_ship }
         serialized_record = CrewSerializer(crew_member, data=data)
         if serialized_record.is_valid():
-            print(serialized_record.validated_data.get('ship_assigned'))
             try:
                 serialized_record.save()
             except Exception as e:

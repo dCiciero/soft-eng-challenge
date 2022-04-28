@@ -10,7 +10,7 @@ import uuid
 from django.conf import settings
 
 
-ship_capacity = settings.SHIP_LIMIT
+ship_capacity = int(settings.SHIP_LIMIT)
 ships = services.get_queryset()
 @api_view(["GET", "POST"])
 def list_ship(request):

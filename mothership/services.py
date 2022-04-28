@@ -3,7 +3,7 @@ from rest_framework import status
 from  .models import Mothership
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
-import os
+from django.conf import settings
 
 def get_queryset(id=None):
     if not id:
@@ -14,7 +14,7 @@ def get_queryset(id=None):
         return Response({'error_message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 def check_capacity():
-    capacity = os.getenv('MOTHERSHIP_LIMIT') # SystemControl.objects.values('mship_max').first()
+    capacity = int(settings.MOTHERSHIP_LIMIT)
     if capacity:
         return capacity
     return Response({"Error":"No record found"}, status=status.HTTP_404_NOT_FOUND)

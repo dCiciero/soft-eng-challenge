@@ -10,7 +10,7 @@ from django.conf import settings
 import uuid
 
 mships = services.get_queryset()
-mothership_capacity = settings.MOTHERSHIP_LIMIT
+mothership_capacity = int(settings.MOTHERSHIP_LIMIT)
 
 @api_view(["GET", "POST"])
 def mothership(request):
@@ -23,26 +23,23 @@ def mothership(request):
     elif request.method == "POST":
         serialized_record = MothershipSerializer(data=request.data)
         if serialized_record.is_valid():
-            print(len(mships))
-            if len(mships) == services.check_capacity:
-                return Response({"Error": "Mothership limit reached"}, status=status.HTTP_400_BAD_REQUEST)
             serialized_record.save()
             return Response(serialized_record.data, status=status.HTTP_201_CREATED)
         return Response(serialized_record.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["GET", "PUT", "DELETE"])
-def mothership_details(request, id, *args, **kwargs):
+def mothership_details(request, id):
     mship = services.get_queryset(id)
     if request.method == "GET":
         if isinstance(mship, Mothership):
             mship_serializer = MothershipSerializer(mship, many=False)
             return Response(mship_serializer.data)
-    
+        return Response({"Error":f"No deployed mothership with Id: {id}."}, status=status.HTTP_404_NOT_FOUND)
     elif request.method == "PUT":
         current_mship_load = mship.ships.count()
         ships_to_add = request.data['ships_to_add']
         if current_mship_load == mothership_capacity:
-            return Response({"Error":"Mothership limit reached, cannot add more ships"})
+            return Response({"Error":"Mothership limit reached, cannot add more ships"}, status=status.HTTP_406_NOT_ACCEPTABLE)
         
         elif current_mship_load < mothership_capacity:
             if (ships_to_add + current_mship_load) > mothership_capacity:
@@ -55,4 +52,5 @@ def mothership_details(request, id, *args, **kwargs):
         return Response({"Error":"Bad request"}, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == "DELETE":
-        return Response({"Error":"Delete operation is not implemented"}, status=status.HTTP_400_BAD_REQUEST)
+        mship.delete()
+        return Response({"Info":f"Mothership {mship} with all its associated ships have been deleted"}, status=status.HTTP_204_NO_CONTENT)
