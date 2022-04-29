@@ -1,6 +1,6 @@
 from .models import Mothership
 from ship.models import Ship
-from .services import check_capacity, get_queryset
+from .services import check_capacity, get_queryset, check_existence
 from .serializers import MothershipSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -21,6 +21,9 @@ def mothership(request):
         return Response({"Info":"No mothership has been deployed to battle"}, status=status.HTTP_200_OK)
     
     elif request.method == "POST":
+        mship_name = request.data['name']
+        if check_existence(mship_name) > 0:
+            return Response({"Error":f"A mothership with name '{mship_name}' has already been deployed"}, status=status.HTTP_406_NOT_ACCEPTABLE)
         serialized_record = MothershipSerializer(data=request.data)
         if serialized_record.is_valid():
             serialized_record.save()
@@ -30,7 +33,6 @@ def mothership(request):
 @api_view(["GET", "PUT", "DELETE"])
 def mothership_details(request, id):
     mship = get_queryset(id)
-    print(mship)
     if not isinstance(mship, Mothership):
         return Response({"Error":f"No deployed mothership with Id: {id}."}, status=status.HTTP_404_NOT_FOUND)
     if request.method == "GET":

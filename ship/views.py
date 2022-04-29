@@ -55,6 +55,10 @@ def ship_details(request, id):
         return Response({"Error":"Bad request"}, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == "DELETE":
-        ship.delete()
+        if isinstance(ship, Ship):
+            ship.delete()
+            return Response({"Info":"Ship deleted with its crew members"}, status=status.HTTP_204_NO_CONTENT) 
+        return ship
         
-        return Response({"Info":"Ship deleted with its crew members"}, status=status.HTTP_204_NO_CONTENT) 
+        
+        

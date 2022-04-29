@@ -18,3 +18,6 @@ def check_capacity():
     if capacity:
         return capacity
     return Response({"Error":"No record found"}, status=status.HTTP_404_NOT_FOUND)
+
+def check_existence(name):
+    return Mothership.objects.filter(name=name).count()
